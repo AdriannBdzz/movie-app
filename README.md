@@ -142,11 +142,6 @@ GET /recommendations?user_id=user123
 
 ---
 
-## 🧾 Demo  
-👉 [https://adriannbdzz.github.io/movie-app/](https://adriannbdzz.github.io/movie-app/)
-
----
-
 ## 🧑‍💻 Autor  
 
 **Adrián Bermúdez Muñoz**  

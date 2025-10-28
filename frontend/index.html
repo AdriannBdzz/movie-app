@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🎬 Movie App — Búsqueda, Favoritos y Recomendaciones</title>
+<meta name="color-scheme" content="light dark" />
+<style>
+:root{
+--bg: #0b0f14;
+--panel: #0f1720;
+--muted: #a7b0be;
+--text: #e8eef6;
+--primary: #4f9cff;
+--primary-800: #367fe0;
+--ring: rgba(79,156,255,.35);
+--success: #2ecc71;
+--danger: #ff6b6b;
+--border: #223042;
+--radius: 16px;
+--shadow: 0 10px 25px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme: light){
+:root{ --bg:#f6f8fb; --panel:#fff; --text:#0d1420; --border:#e6e9ef; --muted:#5b6b7f; --shadow:0 10px 25px rgba(16,24,40,.08);}
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif; background:var(--bg); color:var(--text)}
+
+
+/* Layout */
+.container{max-width:1100px; margin:0 auto; padding:24px}
+header{position:sticky; top:0; z-index:10; backdrop-filter:saturate(1.2) blur(8px); background:color-mix(in oklab, var(--bg) 80%, transparent); border-bottom:1px solid var(--border)}
+header .inner{display:flex; gap:16px; align-items:center; justify-content:space-between; padding:14px 24px}
+.brand{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px}
+.brand .logo{display:grid; place-items:center; width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg, var(--primary), #8ad0ff)}
+
+
+/* Controls */
+.controls{display:grid; grid-template-columns: 1fr auto auto auto; gap:10px; margin-top:12px}
+.input, .btn{height:46px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:var(--text)}
+.input{padding:0 14px; outline:none; box-shadow:none}
+.input:focus{border-color:var(--primary); box-shadow:0 0 0 4px var(--ring)}
+.btn{padding:0 14px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; justify-content:center}
+.btn-primary{background:linear-gradient(180deg, var(--primary), var(--primary-800)); color:white; border:none; box-shadow:var(--shadow)}
+.btn-primary:active{transform:translateY(1px)}
+.btn-ghost{background:transparent}
+
+
+/* Sections */
+section{margin-top:28px}
+h2{font-size:1.2rem; margin:0 0 12px 0; color:var(--muted); font-weight:600}
+
+
+/* Cards */
+.grid{display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:16px}
+.card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column}
+.poster{aspect-ratio: 2/3; width:100%; object-fit:cover; background:#111826}
+.card-body{padding:12px 12px 14px 12px; display:grid; gap:10px}
+.title{font-size:1rem; font-weight:700; line-height:1.2}
+.meta{color:var(--muted); font-size:.9rem}
+.card-actions{display:flex; gap:10px}
+
+
+/* Empty state */
+.empty{border:1px dashed var(--border); border-radius:14px; padding:22px; color:var(--muted); text-align:center}
+
+
+/* Toast */
+.toast{position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--panel); border:1px solid var(--border); padding:10px 14px; border-radius:12px; box-shadow:var(--shadow); display:none}
+.toast.show{display:block}
+
+
+/* Loader */
+.loader{width:22px; height:22px; border-radius:50%; border:3px solid var(--border); border-top-color:var(--primary); animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+
+@media (max-width:680px){
+.controls{grid-template-columns: 1fr 1fr 1fr;}
+#userId{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="inner container">
+<div class="brand">
+<div class="logo">🎬</div>
+<div>Movie App</div>
+</div>
+<div class="row" style="display:flex; align-items:center; gap:10px">
+<a href="#docs" class="btn btn-ghost" onclick="openDocs()">API Docs</a>
+<div id="spinner" class="loader" style="display:none"></div>
+</div>
+</div>
+</header>
+
+
+<main class="container">
+<div class="controls">
+<input id="userId" class="input" placeholder="Tu usuario (p.ej. user123)" />
+<input id="query" class="input" placeholder="Busca una película…" />
+<button id="btnSearch" class="btn btn-primary" style="display: none;">Buscar</button>
+<button id="btnShowFavs" class="btn">Favoritos</button>
+</div>
+
+
+<div class="controls" style="grid-template-columns:auto; margin-top:10px">
+<button id="btnReco" class="btn" style="display:none">🔮 Ver recomendaciones</button>
+</div>
+
+
+<section>
+<h2>Resultados</h2>
+<div id="results" class="grid"></div>
+<div id="resultsEmpty" class="empty" style="display:none">Sin resultados todavía. Busca algo como <strong>Inception</strong> o <strong>Avatar</strong>.</div>
+</section>
+
+
+<section>
+<h2>Favoritos</h2>
+<div id="favs" class="grid"></div>
+<div id="favsEmpty" class="empty">Aún no tienes favoritos. Añade algunos desde los resultados.</div>
+</section>
+</main>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script src="main.js"></script>
+<script>
+function openDocs(){ window.open('http://127.0.0.1:8000/docs','_blank'); }
+</script>
+</body>
+</html>

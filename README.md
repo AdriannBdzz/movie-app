@@ -6,18 +6,18 @@
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat&logo=sqlite&logoColor=white)
 ![TMDb](https://img.shields.io/badge/TMDb-API-green?style=flat&logo=tmdb&logoColor=white)
 
-## 📖 Descripción  
+##  Descripción  
 
 **Movie-App** es una aplicación web que recomienda películas personalizadas mediante un **modelo de Machine Learning entrenado por usuario**.  
 El sistema combina información de **The Movie Database (TMDb)**, datos de favoritos del usuario y un modelo de **regresión logística** que aprende de sus preferencias.  
 
 El proyecto está dividido en:  
-- 🧠 **Backend (FastAPI + ML + SQLite)**  
-- 💻 **Frontend (HTML + JS)** *(publicado vía GitHub Pages)*  
+-  **Backend (FastAPI + ML + SQLite)**  
+-  **Frontend (HTML + JS)** *(publicado vía GitHub Pages)*  
 
 ---
 
-## 🧩 Arquitectura general  
+##  Arquitectura general  
 
 ```
 movie-app/
@@ -40,7 +40,7 @@ movie-app/
 
 ---
 
-## ⚙️ Tecnologías  
+##  Tecnologías  
 
 | Componente | Tecnología | Descripción |
 |-------------|-------------|-------------|
@@ -52,7 +52,7 @@ movie-app/
 
 ---
 
-## 🚀 Ejecución local  
+##  Ejecución local  
 
 ### 1️⃣ Clonar el repositorio
 ```bash
@@ -94,7 +94,7 @@ El backend se ejecutará en:
 
 ---
 
-## 🔍 Endpoints principales  
+##  Endpoints principales  
 
 | Método | Ruta | Descripción |
 |--------|------|--------------|
@@ -107,7 +107,7 @@ El backend se ejecutará en:
 
 ---
 
-## 🧠 Cómo funciona el modelo  
+##  Cómo funciona el modelo  
 
 1. **El usuario marca películas como favoritas.**  
 2. **Cuando alcanza ≥ 5 favoritos, se entrena un modelo propio.**  
@@ -119,7 +119,7 @@ El backend se ejecutará en:
 
 ---
 
-## 🧩 Ejemplo de flujo API  
+##  Ejemplo de flujo API  
 
 ```bash
 GET /search?q=inception
@@ -129,7 +129,7 @@ GET /recommendations?user_id=user123
 
 ---
 
-## 🗃️ Base de datos  
+##  Base de datos  
 
 | Campo | Tipo | Descripción |
 |--------|------|-------------|
@@ -142,7 +142,7 @@ GET /recommendations?user_id=user123
 
 ---
 
-## 🧑‍💻 Autor  
+##  Autor  
 
 **Adrián Bermúdez Muñoz**  
 🎓 Proyecto personal de IA y desarrollo web.  
